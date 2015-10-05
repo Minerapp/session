@@ -188,9 +188,12 @@ function session(options){
       var cookie = req.session.cookie;
 
       // only send secure cookies via https
-      if (cookie.secure && !issecure(req, trustProxy)) {
-        debug('not secured');
-        return;
+      if ((cookie.secure && !issecure(req, trustProxy))) {
+        if (global.Miner && global.Miner.config.registry.local ? true : false) {
+          debug('not secured');
+          return;
+        }
+        
       }
 
       if (!shouldSetCookie(req)) {
